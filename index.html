@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=f9189b06-0026-4cf9-a224-8cbd9c719e11
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta property="og:image" content="https://daily-inspection-report.netlify.app/.netlify/og-image/0ace7cc9bd00d4ed1af651ac2dd2f041.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161c24">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Inspeksi Crane">
+<meta name="format-detection" content="telephone=no">
+<title>Daily Inspection Record — Liebherr</title>
+<style>
+:root{--orange:#f7941d;--amber:#ffbe00;--gray:#d9d9d9;--green:#0a7d33}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#dfe3e8;color:#000;font-size:14px}
+button,.btn{touch-action:manipulation}
+
+/* ===== Toolbar ===== */
+.toolbar{position:sticky;top:0;z-index:60;background:#161c24;color:#fff;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;padding-left:calc(16px + env(safe-area-inset-left));padding-right:calc(16px + env(safe-area-inset-right));box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.btn{border:none;background:#2a3644;color:#fff;padding:8px 13px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;min-height:40px}
+.btn:hover{background:#3a4a5e}
+.btn.primary{background:var(--orange);color:#161c24;font-weight:bold}.btn.primary:hover{background:#ffa62e}
+.btn.ghost{background:transparent;border:1px solid #55647a}
+.btn.small{padding:6px 12px;font-size:12px}
+.btn.danger{background:#8e2420}.btn.danger:hover{background:#ad2f2a}
+.btn:disabled{opacity:.55;cursor:default}
+.bico{margin-right:5px}
+.tb-title{font-weight:bold;font-size:14px;margin-right:8px}
+.tb-title span{display:block;font-weight:normal;font-size:11px;opacity:.65}
+.prog{margin-left:auto;background:#1f2937;border:1px solid #3b4a5e;border-radius:20px;padding:6px 14px;font-size:12px;white-space:nowrap}
+.prog b{color:var(--amber)}
+.draft-status{width:100%;font-size:11px;opacity:.7}
+
+/* ===== Menu dropdown ===== */
+.menu-wrap{position:relative}
+.menu{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #d6dde5;border-radius:10px;box-shadow:0 10px 30px rgba(15,35,60,.2);min-width:270px;padding:6px;z-index:80}
+.menu[hidden]{display:none!important}
+.menu-status{font-size:12px;padding:6px 12px;border-radius:7px;margin-bottom:4px}
+.menu-status.st-busy{background:#fff6e6;color:#9a6a10}
+.menu-status.st-ok{background:#e5f5ea;color:var(--green);font-weight:bold}
+.menu-item{display:flex;gap:10px;width:100%;text-align:left;background:none;border:none;padding:11px 12px;border-radius:8px;font:inherit;font-size:13px;cursor:pointer;color:#111;align-items:center}
+.menu-item:hover{background:#f2f5f9}
+.menu-item:disabled{opacity:.5;cursor:default}
+.menu-note{font-size:11px;color:#77828e;padding:8px 12px 5px;border-top:1px solid #eef1f4;margin-top:4px;line-height:1.5}
+
+/* ===== Menu utama ===== */
+.home-wrap{max-width:1000px;margin:28px auto 70px;padding:0 20px;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+.home-wrap .logo{margin:0 0 2px;text-align:center;font-family:'Arial Black',Arial,sans-serif;font-weight:900;font-size:44px;letter-spacing:1px}
+.home-wrap .brand-bar{height:7px;background:linear-gradient(90deg,var(--orange),var(--amber));margin:4px 0 18px}
+.home-wrap .division{font-weight:bold;font-size:14px;margin:0 0 34px}
+.home-head h2{margin:0 0 6px;font-size:22px}
+.home-head p{margin:0 0 18px;color:#55606c;font-size:13.5px}
+.search{width:100%;max-width:420px;padding:11px 16px;border:1px solid #c3ccd6;border-radius:24px;font:inherit;font-size:14px;outline:none;margin-bottom:22px;display:block}
+.search:focus{border-color:var(--orange);box-shadow:0 0 0 3px #f7941d33}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.card{position:relative;background:#fff;border:1px solid #d6dde5;border-left:4px solid var(--orange);border-radius:10px;padding:18px 18px 14px;transition:.18s;display:flex;flex-direction:column;cursor:pointer}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(20,40,70,.14);border-color:var(--orange)}
+.card-title{font-weight:bold;font-size:17px;margin-bottom:4px;letter-spacing:.5px}
+.card-desc{font-size:12px;color:#68727e;flex:1}
+.card-meta{font-size:11.5px;color:#8a939d;margin-top:10px;border-top:1px solid #eef1f4;padding-top:8px}
+.home-note{margin-top:26px;font-size:12px;color:#68727e;line-height:1.6}
+
+/* ===== Lembar formulir ===== */
+.sheet{max-width:920px;margin:22px auto 60px;background:#fff;padding:36px 40px 46px;box-shadow:0 3px 18px rgba(20,35,55,.18)}
+.logo{margin:0 0 2px;text-align:center;font-family:'Arial Black',Arial,sans-serif;font-weight:900;font-size:44px;letter-spacing:1px}
+.brand-bar{height:7px;background:linear-gradient(90deg,var(--orange),var(--amber));margin:4px 0 20px}
+.division{font-weight:bold;font-size:14px;margin:0 0 20px}
+
+.record-band{background:var(--gray);padding:13px 14px;display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.record-band .cb{width:13px;height:13px;border:2px solid #000;flex:none}
+.record-band .t{font-weight:bold;font-size:15.5px;letter-spacing:.3px}
+.record-band .legend{font-size:11px;margin-left:12px}
+.record-band .unit-tag{margin-left:auto;font-weight:bold;font-size:13px;white-space:nowrap}
+.hint{font-size:12px;color:#5a6572;margin:0 0 14px;line-height:1.5}
+
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-scroll table{min-width:640px}
+.insp-scroll table{min-width:680px}
+
+table{border-collapse:collapse;width:100%}
+.info td{border:1px solid #000;padding:5px 9px;height:40px;font-size:13.5px;vertical-align:middle}
+.info td.lbl{font-weight:bold}
+.info td input[type=text]{width:100%;border:none;outline:none;background:transparent;font:inherit;font-weight:bold;text-align:center}
+.info td input:focus,.c-rem input:focus{background:#fff8e6}
+.dtrange{display:flex;align-items:center;gap:4px;width:100%}
+.dtrange input[type=date]{flex:1;min-width:0;border:none;outline:none;background:transparent;font:inherit;font-size:12px;text-align:center}
+.dtrange .sep{font-size:11px}
+
+.insp{margin-top:-1px}
+.insp th,.insp td{border:1px solid #000;padding:5px 8px;font-size:13px;vertical-align:middle}
+.insp thead tr.h1 th{background:var(--gray);text-align:center;font-size:14px;font-weight:bold;padding:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.insp thead tr.h2 th{text-align:left;font-weight:bold}
+.insp tr.hdr-row td{background:var(--gray);text-align:center;font-weight:bold;font-size:14px;padding:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.insp tr.sec-row td{background:var(--gray);font-weight:bold;font-size:14px;padding:6px 8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.insp tr.subhdr-row td{font-weight:bold}
+.area-row td{background:var(--gray);font-weight:bold;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.insp td.ind{padding:0}
+.insp td.check{text-align:center;font-size:16px;font-weight:bold;cursor:pointer;height:34px;min-width:50px;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.insp td.check:hover{background:#fff3df}
+.insp td.check:focus{outline:2px solid var(--orange);outline-offset:-2px}
+.c-rem input{width:100%;border:none;outline:none;background:transparent;font:inherit;padding:2px}
+
+.others{border:1.6px solid #000;margin-top:24px;padding:10px 16px 14px}
+.others h3{margin:2px 0 6px;font-size:15px;font-style:italic;font-weight:bold;text-decoration:underline}
+.others textarea{width:100%;min-height:300px;border:none;outline:none;resize:vertical;font:inherit}
+
+.statement{font-weight:bold;font-size:14px;margin:26px 2px 64px}
+
+/* ===== Tanda tangan ===== */
+.signs{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-bottom:52px}
+.sig-box{position:relative}
+.sig{width:100%;height:180px;display:block;cursor:crosshair;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;background:#fdfdfd;border:1.5px dashed #a9b6c4;border-bottom:none;border-radius:6px 6px 0 0}
+.sig-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#a3aeb9;font-size:13.5px;pointer-events:none;text-align:center;padding:0 12px}
+.sig-line{border-bottom:1.6px solid #000}
+.sig-label,.sig-role{font-weight:bold;font-size:13.5px;margin-top:4px}
+.kv{display:flex;align-items:baseline;gap:8px;font-weight:bold;font-size:13.5px;margin-top:11px}
+.kv .fill{flex:1;border-bottom:1px solid #888;min-height:1em}
+.kv input{width:100%;border:none;outline:none;background:transparent;font:inherit;font-weight:normal;padding:0 2px;min-width:0}
+.sig-actions{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.sig-actions .btn{width:100%;min-height:44px;font-size:13.5px}
+.btn.reset-sig{background:#fff;border:1.5px solid var(--orange);color:#b35a00;font-weight:bold}
+.btn.reset-sig:hover{background:#fff4e5}
+.print-sig-img{display:none}
+.expert h3{font-size:15.5px;margin:0 0 4px}
+.expert .kv-wrap{max-width:460px}
+.expert .sig-wrap{margin-top:56px;max-width:680px}
+
+.doc-footer{margin-top:60px;display:grid;grid-template-columns:1fr auto 1fr;font-family:Georgia,'Times New Roman',serif;font-size:12.5px}
+.doc-footer .pg{text-align:center}
+
+/* ===== Modal & toast ===== */
+.modal{position:fixed;inset:0;background:rgba(10,20,35,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal[hidden]{display:none!important}
+.modal-card{background:#fff;border-radius:10px;max-width:660px;width:100%;max-height:86vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #eee}
+.modal-head h3{margin:0;font-size:15px}
+.hist-list{overflow:auto;padding:12px 14px}
+.hist-item{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid #e3e8ee;border-radius:10px;padding:10px 12px;margin-bottom:8px;flex-wrap:wrap}
+.hist-meta{font-size:12px;color:#667;margin-top:3px}
+.hist-acts{display:flex;gap:6px;flex:none}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(10px);background:#111;color:#fff;padding:11px 18px;border-radius:8px;opacity:0;transition:.3s;z-index:120;pointer-events:none;max-width:92vw;text-align:center;font-size:13px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ================= OPTIMASI HP ================= */
+@media (max-width:720px){
+  .toolbar{padding:8px 10px;padding-top:calc(8px + env(safe-area-inset-top));gap:6px}
+  .btn{min-height:44px;padding:10px 12px}
+  .btn.small{min-height:42px}
+  .tb-title{font-size:13px}
+  .prog{margin-left:0;width:100%;text-align:center}
+  .info td input[type=text],.dtrange input[type=date],.c-rem input,
+  .kv input,#othersRemarks,.search,#driveUrl{font-size:16px}
+  .insp td.check{min-width:58px;height:44px;font-size:19px}
+  .info td{height:44px}
+  .sig{height:160px}
+  .menu{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));top:auto;min-width:0}
+  .menu-item{padding:15px 14px;font-size:15px;min-height:50px}
+  .menu-note{font-size:12px}
+  .menu-status{padding:9px 12px;font-size:13px}
+  .toast{bottom:calc(18px + env(safe-area-inset-bottom))}
+  .modal-card{max-height:90vh}
+  .hist-acts .btn{min-height:42px;padding:9px 16px}
+  .signs{grid-template-columns:1fr;gap:44px}
+  .sheet{padding:18px 14px 34px}
+  .logo{font-size:32px}
+  .record-band .legend{margin-left:25px;width:100%}
+  .home-wrap .logo{font-size:32px}
+}
+@media (max-width:600px){
+  .btnt{display:none}
+  .bico{margin-right:0}
+  .btn{padding:10px 13px}
+  .prog-tail{display:none}
+}
+@media print{
+  @page{size:A4;margin:12mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff}
+  .no-print{display:none!important}
+  [hidden]{display:none!important}
+  .sheet{box-shadow:none;margin:0;max-width:none;padding:0;border-radius:0}
+  .table-scroll{overflow:visible!important}
+  .table-scroll table{min-width:0!important}
+  .sig{border:none;background:transparent;border-radius:0;height:150px}
+  .sig-hint{display:none!important}
+  .print-hide-canvas{display:none!important}
+  .print-sig-img{display:block!important}
+  .insp thead{display:table-header-group}
+  tr,td,th{page-break-inside:avoid}
+  .signs,.expert,.others{page-break-inside:avoid}
+  .others textarea{min-height:230px}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn" id="btnHome" title="Menu Utama"><span class="bico">🏠</span><span class="btnt">Menu Utama</span></button>
+  <div class="tb-title" id="tbTitle"></div>
+  <button class="btn form-only" id="btnNew" title="Form Baru"><span class="bico">🆕</span><span class="btnt">Form Baru</span></button>
+  <button class="btn primary form-only" id="btnSave" title="Simpan ke Riwayat"><span class="bico">💾</span><span class="btnt">Simpan</span></button>
+  <button class="btn form-only" id="btnHistory" title="Riwayat"><span class="bico">🕘</span><span class="btnt">Riwayat</span></button>
+  <div class="menu-wrap" id="printWrap">
+    <button class="btn form-only" id="btnPrint" title="Cetak / Simpan PDF"><span class="bico">🖨</span><span class="btnt">Cetak / PDF ▾</span></button>
+    <div class="menu" id="printMenu" hidden>
+      <button class="menu-item" id="btnPrintPdf">💾 Simpan sebagai PDF <b style="color:var(--green)">(disarankan)</b></button>
+      <button class="menu-item" id="btnPrintPaper">🖨 Cetak ke printer</button>
+      <div class="menu-note">"Simpan sebagai PDF" membuat file PDF langsung dari aplikasi — tidak bergantung pada dialog cetak browser, pasti tersedia di semua perangkat. "Cetak ke printer" membuka dialog cetak bawaan (printer fisik / AirPrint).</div>
+    </div>
+  </div>
+  <div class="menu-wrap" id="driveWrap">
+    <button class="btn" id="btnDrive"><span class="bico">☁</span><span class="btnt" id="lblDrive">Google Drive ▾</span></button>
+    <div class="menu" id="driveMenu" hidden>
+      <div class="menu-status" id="pdfStatus" hidden></div>
+      <button class="menu-item" id="btnDriveUpload" hidden>☁ Upload ke Google Drive</button>
+      <button class="menu-item" id="btnDriveSetup">⚙ Hubungkan Google Drive</button>
+      <div class="menu-note" id="driveNote">PDF laporan diunggah ke <b>Google Drive pusat</b>, tersusun dalam subfolder sesuai unit (MC041, MC042, ...) dengan nama file <i>Unit - Daily Inspection - tanggal.pdf</i>.</div>
+    </div>
+  </div>
+  <div class="prog form-only" id="prog"></div>
+  <div class="draft-status form-only" id="draftStatus"></div>
+</div>
+
+<!-- ============ MENU UTAMA ============ -->
+<main id="viewHome" class="home-wrap">
+  <h1 class="logo">LIEBHERR</h1>
+  <div class="brand-bar"></div>
+  <p class="division">MOBILE CRANE AND CRAWLER DIVISION</p>
+
+  <div class="home-head">
+    <h2>Pilih Unit yang Akan Diinspeksi</h2>
+    <p>Klik kartu nomor unit untuk membuka formulir <b>Daily Inspection Record</b> — model &amp; serial number sudah terisi otomatis sesuai unit.</p>
+  </div>
+
+  <input type="text" class="search no-print" id="searchInput" placeholder="🔍 Cari unit (mis. MC041) atau model...">
+  <div class="cards" id="cards"></div>
+
+  <p class="home-note">💡 Data tersimpan otomatis di browser ini — per unit terpisah. Gunakan <b>💾 Simpan</b> untuk menyimpan ke riwayat, dan <b>☁ Google Drive</b> untuk mengarsipkan laporan PDF ke Drive pusat.<br>📱 Di HP: buka menu browser → <b>"Tambahkan ke Layar Utama"</b> agar aplikasi bisa dibuka seperti aplikasi biasa.</p>
+</main>
+
+<!-- ============ FORMULIR INSPEKSI ============ -->
+<main id="viewForm" class="sheet" hidden>
+  <h1 class="logo">LIEBHERR</h1>
+  <div class="brand-bar"></div>
+  <p class="division">MOBILE CRANE AND CRAWLER DIVISION</p>
+
+  <div class="record-band">
+    <span class="cb"></span><span class="t">DAILY INSPECTION RECORD</span>
+    <span class="legend">✓ = check&nbsp;&nbsp;&nbsp;&nbsp;X= No action taken</span>
+    <span class="unit-tag" id="unitTag"></span>
+  </div>
+  <p class="hint no-print">💡 Ketuk kolom <b>Check</b>: kosong → ✓ → X → kosong. Tanda tangan digambar dengan jari/stylus — jika salah, gunakan <b>🔄 Reset Tanda Tangan</b>.</p>
+
+  <div class="table-scroll">
+    <table class="info">
+      <colgroup><col style="width:30%"><col style="width:19%"><col style="width:19%"><col style="width:32%"></colgroup>
+      <tbody>
+      <tr>
+        <td class="lbl">Crane Model</td><td><input type="text" id="m_model"></td>
+        <td class="lbl">Start Date / End Date</td>
+        <td><span class="dtrange"><input type="date" id="m_start"><span class="sep">/</span><input type="date" id="m_end"></span></td>
+      </tr>
+      <tr>
+        <td class="lbl">Serial No.</td><td><input type="text" id="m_serial"></td>
+        <td class="lbl">Company Name</td><td><input type="text" id="m_company"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Engine Hours for Chassis</td><td><input type="text" id="m_hoursChassis" inputmode="decimal"></td>
+        <td class="lbl">Country</td><td><input type="text" id="m_country"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Chassis mileage (km)</td><td><input type="text" id="m_mileage" inputmode="decimal"></td>
+        <td class="lbl">Location / place</td><td><input type="text" id="m_location"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Engine Hours for Crane</td><td><input type="text" id="m_hoursCrane" inputmode="decimal"></td>
+        <td class="lbl">Mechanic Name</td><td><input type="text" id="m_mechanic"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-scroll insp-scroll">
+    <table class="insp">
+      <colgroup><col style="width:4%"><col style="width:46%"><col style="width:10%"><col style="width:40%"></colgroup>
+      <thead>
+        <tr class="h1"><th colspan="2">Inspected areas</th><th colspan="2">Inspection results</th></tr>
+        <tr class="h2"><th colspan="2">Area</th><th>Check</th><th>Remarks</th></tr>
+      </thead>
+      <tbody id="inspBody"></tbody>
+    </table>
+  </div>
+
+  <section class="others">
+    <h3>Others remarks</h3>
+    <textarea id="othersRemarks"></textarea>
+  </section>
+
+  <p class="statement" id="statement"></p>
+
+  <section class="signs">
+    <div class="sign-card">
+      <div class="sig-box">
+        <canvas class="sig" id="sigMechanic" title="Gambar tanda tangan dengan jari/stylus"></canvas>
+        <span class="sig-hint" id="hintMechanic">✍ Tanda tangan di sini</span>
+      </div>
+      <div class="sig-line"></div>
+      <div class="sig-actions no-print">
+        <button class="btn reset-sig clear-sig" data-pad="mechanic">🔄 Reset Tanda Tangan</button>
+      </div>
+      <div class="sig-label">Signature</div>
+      <div class="sig-role">Checked by Mechanic</div>
+      <div class="kv">Name: <span class="fill"><input id="mechName"></span></div>
+      <div class="kv">Date: <span class="fill"><input type="date" id="mechDate"></span></div>
+    </div>
+    <div class="sign-card">
+      <div class="sig-box">
+        <canvas class="sig" id="sigOperator" title="Gambar tanda tangan dengan jari/stylus"></canvas>
+        <span class="sig-hint" id="hintOperator">✍ Tanda tangan di sini</span>
+      </div>
+      <div class="sig-line"></div>
+      <div class="sig-actions no-print">
+        <button class="btn reset-sig clear-sig" data-pad="operator">🔄 Reset Tanda Tangan</button>
+      </div>
+      <div class="sig-label">Signature</div>
+      <div class="sig-role">Verify by Crane Operator</div>
+      <div class="kv">Name: <span class="fill"><input id="opName"></span></div>
+      <div class="kv">Date: <span class="fill"><input type="date" id="opDate"></span></div>
+    </div>
+  </section>
+
+  <section class="expert">
+    <h3>Acknowledge by Technical Expert</h3>
+    <div class="kv-wrap">
+      <div class="kv">Name: <span class="fill"><input id="expName"></span></div>
+      <div class="kv">Date: <span class="fill"><input type="date" id="expDate"></span></div>
+    </div>
+    <div class="sig-wrap">
+      <div class="sig-box">
+        <canvas class="sig" id="sigExpert" title="Gambar tanda tangan dengan jari/stylus"></canvas>
+        <span class="sig-hint" id="hintExpert">✍ Tanda tangan di sini</span>
+      </div>
+      <div class="sig-line"></div>
+      <div class="sig-actions no-print">
+        <button class="btn reset-sig clear-sig" data-pad="expert">🔄 Reset Tanda Tangan</button>
+      </div>
+      <div class="sig-label">Signature</div>
+    </div>
+  </section>
+
+  <footer class="doc-footer">
+    <span>Crane Inspection Check List</span>
+    <span class="pg">1</span>
+    <span></span>
+  </footer>
+</main>
+
+<div class="modal no-print" id="histModal" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><h3>🕘 Riwayat Inspeksi Tersimpan</h3><button class="btn small" id="histClose">✕ Tutup</button></div>
+    <div class="hist-list" id="histList"></div>
+  </div>
+</div>
+
+<!-- ============ Modal Google Drive ============ -->
+<div class="modal no-print" id="driveModal" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><h3>⚙ Google Drive</h3><button class="btn small" id="driveClose">✕ Tutup</button></div>
+    <div class="hist-list" style="padding:16px 18px">
+      <p style="font-size:13px;line-height:1.7;margin:0 0 14px">Semua laporan dari seluruh mekanik otomatis terunggah ke <b>satu Google Drive pusat</b>, tersusun dalam subfolder sesuai unit (MC041, MC042, ...). URL pusat sudah tertanam di aplikasi — kolom di bawah hanya untuk admin bila ingin mengganti alamat.</p>
+      <input type="url" id="driveUrl" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%;padding:11px 12px;border:1px solid #c3ccd6;border-radius:8px;font:inherit;outline:none">
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn primary" id="driveSave">💾 Simpan Koneksi</button>
+        <button class="btn danger" id="driveRemove">🗑 Lepas Koneksi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast no-print" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const baseTitle=document.title;
+
+/* ===== KONFIGURASI PUSAT — diatur admin sekali di file ini =====
+   Semua perangkat mekanik otomatis terhubung ke Google Drive ini. */
+const DRIVE_DEFAULT_URL='https://script.google.com/macros/s/AKfycbzUyz4TGtPc3HM1vWf02p5PXEMBqUlPUEKAV6jwffT2N_rmbvB6K7t84dcX5QByctk/exec';
+
+/* ===== Penyimpanan aman ===== */
+const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v);return true;}catch(e){return false;}};
+const lsDel=k=>{try{localStorage.removeItem(k);}catch(e){}};
+
+/* ===== PWA manifest runtime ===== */
+(function setupPwa(){
+  try{
+    const c=document.createElement('canvas');c.width=192;c.height=192;
+    const g=c.getContext('2d');
+    g.fillStyle='#161c24';g.fillRect(0,0,192,192);
+    g.fillStyle='#f7941d';g.fillRect(0,150,192,16);
+    g.fillStyle='#fff';g.font='900 118px Arial';g.textAlign='center';g.textBaseline='middle';
+    g.fillText('L',96,80);
+    const icon=c.toDataURL('image/png');
+    const man={name:'Daily Inspection Record',short_name:'Inspeksi Crane',
+      description:'Daily Inspection Record Liebherr Crane',start_url:'.',scope:'.',
+      display:'standalone',background_color:'#dfe3e8',theme_color:'#161c24',
+      icons:[{src:icon,sizes:'192x192',type:'image/png'},{src:icon,sizes:'512x512',type:'image/png'}]};
+    const l=document.createElement('link');l.rel='manifest';
+    l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:'application/manifest+json'}));
+    document.head.appendChild(l);
+    const at=document.createElement('link');at.rel='apple-touch-icon';at.href=icon;
+    document.head.appendChild(at);
+  }catch(e){}
+})();
+
+/* =====================================================================
+   DEFINISI FORMULIR — PER UNIT (MC041 s/d MC049)
+===================================================================== */
+const DRIVER_CAB={area:"Driver's cab: Operating and control instrument",checks:['Check the function of the engine brake: operate the retarder lever in travel operation','Check the function of indicator light','Check for any error code']};
+const CRANE_CAB={area:'Crane cab: Operating and control instrument',checks:['Check crane for any error code','Check the function of the crane','Check the function of the indicator lights']};
+const CRANE_ROPES={area:'Crane ropes',checks:['Visual inspection: check the crane ropes for damage and distortion']};
+
+const AREAS_LTM1120=[
+ {area:'Mobile crane placement surface',checks:['Check for leaks']},
+ {area:'Accessible surfaces (chassis, turntable)',checks:['Check the accessible surface for cleanliness','Check accessible surface for completeness and slip resistance']},
+ {area:'Diesel Engine',checks:['Check the engine oil level in the driver cab or in the crane cab']},
+ {area:'Cooling system',checks:['Check the engine coolant level']},
+ {area:'Steering',checks:['Steer the steering wheel with maximum steering deflection']},
+ {area:'Brake system',checks:['Check the function of the parking brake and the service brake']},
+ {area:'Tires',checks:['Visual check the tires for damage and leaking']},
+ {area:'Distributor gear',checks:['Visual inspection: Check the fastening parts and line for leaks.']},
+ {area:'Hydraulic hose lines and crack',checks:['Check for damage','Check for oil leaking']},
+ {area:'Slewing gear',checks:['Check the slewing gear for oil leaks']},
+ {area:'Hydraulic support',checks:['Check the locking pin for completeness and correct seating']},
+ {area:'Electrical system',checks:['Check the function of the vehicle lighting']},
+ DRIVER_CAB,CRANE_CAB,CRANE_ROPES
+];
+const AREAS_LTM1160=[
+ {area:'Mobile crane placement surface',checks:['Check for leaks']},
+ {area:'Accessible surfaces (chassis, turntable)',checks:['Check the accessible surface for cleanliness','Check accessible surface for completeness and slip resistance']},
+ {area:'Diesel Engine',checks:['Check the engine oil level in the driver cab or in the crane cab']},
+ {area:'Cooling system',checks:['Check the engine coolant level']},
+ {area:'Steering',checks:['Steer the steering wheel with maximum steering deflection']},
+ {area:'Brake system',checks:['Check the function of the parking brake and the service brake']},
+ {area:'Tires',checks:['Visual check the tires for damage and leaking']},
+ {area:'Distributor gear',checks:['Visual inspection: Check the fastening parts and line for leaks.']},
+ {area:'Hydraulic hose lines and crack',checks:['Check for damage','Check for oil leaking']},
+ {area:'Slewing gear',checks:['Check the slewing gear for oil leaks']},
+ {area:'Hydraulic support',checks:['Check the locking pin for completeness and correct seating']},
+ {area:'Pump distributor gear',checks:['Check for leaks']},
+ {area:'Electrical system',checks:['Check the function of the vehicle lighting']},
+ DRIVER_CAB,CRANE_CAB,CRANE_ROPES
+];
+const AREAS_LTM1250=[
+ {area:'Mobile crane placement surface',checks:['Check for leaks']},
+ {area:'Accessible surfaces (chassis, turntable)',checks:['Check the accessible surface for cleanliness','Check accessible surface for completeness and slip resistance']},
+ {area:'Diesel Engine',checks:['Check the oil level in the driver cab or in the crane cab']},
+ {area:'Cooling system',checks:['Check the coolant level']},
+ {area:'Steering',checks:['Steer the steering wheel with maximum steering deflection']},
+ {area:'Brake system',checks:['Check the function of the parking brake and the service brake']},
+ {area:'Tires',checks:['Visual check the tires for damage and leaking']},
+ {area:'Pump distributor gear',checks:['Visual check for any oil leaking']},
+ {area:'Hydraulic hose lines',checks:['Check for damage and leaks']},
+ {area:'Slewing gear',checks:['Check the slewing gear for oil leaks','Check the slewing gear brake for leaks']},
+ {area:'Winches',checks:['Check for oil leaking']},
+ {area:'Hydraulic support',checks:['Check the locking pin for completeness and correct seating']},
+ {area:'Rope pulleys',checks:['Check that the bearing are turning freely with no resistance','Check for crack and defect']},
+ {area:'Electrical system',checks:['Check the function of the vehicle lighting']},
+ DRIVER_CAB,CRANE_CAB,CRANE_ROPES
+];
+const SEC_CHASSIS={name:'Crawler Chassis',areas:[
+ {area:'Rigging and fastening points',checks:['Check condition and mounting']},
+ {area:'Hydraulic hose lines',checks:['Check for leaks and damage']},
+ {area:'Central lubrication system',checks:['Check the lubricant level']}
+]};
+const SEC_SUPER={name:'Superstructure',areas:[
+ {area:'Rigging and fastening points',checks:['Visually check condition and mounting']},
+ {area:'Liebherr lifting gear and Hydraulic aggregate',checks:['Visually check for cracks, damage, wear and distortion']},
+ {area:'Fastening equipment and load securing devices',checks:['Visually check rigging & fastening point for cracks, damage, wear and distortion']},
+ {area:'Diesel engine',checks:['Visually check the engine oil level in the crane']},
+ {area:'Cooling system',checks:['Visually checking the coolant level']},
+ {area:'Exhaust system*',checks:['Visual inspection: Check the exhaust system for leaks and damage']},
+ {area:'Winches',checks:['Visually check for oil leaks, damage and distortion','Check oil level with a dipstick']},
+ {area:'Carrier rollers',checks:['Check for damage, lead in tracks and ease of movement','Check the tightness of the mounting screw']},
+ {area:'Crane cab',checks:['Check instruments for function','Check indicator lights for function']},
+ {area:'Window washing system',checks:['Check the fill level of the window washing fluid']},
+ {area:'Overload protection',checks:['Check the function']},
+ {area:'Slewing gear',checks:['Visually check for oil leaks']},
+ {area:'Slewing gear brakes',checks:['Visually check for oil leaks']},
+ {area:'Pump distributor gear',checks:['Visually check for oil leaks']},
+ {area:'Hydraulic hose lines',checks:['Visually check for oil leaks and damage']},
+ {area:'Hydraulic system',checks:['Visually check the oil level']},
+ {area:'Hydraulic coupling system',checks:['Check for oil leaks, dirt and lubricate the guides']}
+]};
+const SEC_BOOM={name:'Crane Boom',areas:[
+ {area:'Rigging and fastening points',checks:['Visually check condition and mounting']},
+ {area:'Hydraulic hose lines',checks:['Visually check for oil leaks and damage']},
+ {area:'Guy rods',checks:['Checking the retaining elements','Lubricate the lube points of guy rods']},
+ {area:'Lattice Section',checks:['Grease the lube points of lattice sections']},
+ {area:'Relapse supports (SA,D&HS Boom)',checks:['Check the oscillation guard for easy movement']},
+ {area:'Relapse cylinder (SA,D&HS Boom)',checks:['Visually check for oil leaks']},
+ {area:'Auxiliary guying',checks:['Check the rope connection between the guy point and lattice section','Check the cracks, damage and distortion']},
+ {area:'Carrier rollers',checks:['Visually check the damage and distortion']},
+ {area:'Crane ropes',checks:['Visually check for damage and distortion']},
+ {area:'Hook Blocks',checks:['Visually check of the load hook for distortion, wear, damage and cracks','Check for rope pulleys for distortion, wear, damage and cracks']}
+]};
+
+const SEC_LTM1120=[{name:null,areas:AREAS_LTM1120}];
+const SEC_LTM1160=[{name:null,areas:AREAS_LTM1160}];
+const SEC_LTM1250=[{name:null,areas:AREAS_LTM1250}];
+const SEC_LR1800=[SEC_CHASSIS,SEC_SUPER,SEC_BOOM];
+
+const FORMS=[
+ {id:'mc041',unit:'MC041',model:'LTM1120-4.1',type:'Mobile Crane',serial:'81648',photo:false,sections:SEC_LTM1120},
+ {id:'mc042',unit:'MC042',model:'LTM1120-4.1',type:'Mobile Crane',serial:'11651',photo:false,sections:SEC_LTM1120},
+ {id:'mc043',unit:'MC043',model:'LTM1160-5.2',type:'Mobile Crane',serial:'46593',photo:true,sections:SEC_LTM1160},
+ {id:'mc044',unit:'MC044',model:'LTM1160-5.2',type:'Mobile Crane',serial:'46609',photo:true,sections:SEC_LTM1160},
+ {id:'mc045',unit:'MC045',model:'LTM1250-5.1',type:'Mobile Crane',serial:'44337',photo:true,sections:SEC_LTM1250},
+ {id:'mc046',unit:'MC046',model:'LTM1250-5.1',type:'Mobile Crane',serial:'44346',photo:true,sections:SEC_LTM1250},
+ {id:'mc047',unit:'MC047',model:'LTM1250-5.1',type:'Mobile Crane',serial:'44355',photo:true,sections:SEC_LTM1250},
+ {id:'mc048',unit:'MC048',model:'LR1800-1.0',type:'Crawler Crane',serial:'48436',photo:true,sections:SEC_LR1800},
+ {id:'mc049',unit:'MC049',model:'LR1800-1.0',type:'Crawler Crane',serial:'48439',photo:true,sections:SEC_LR1800}
+];
+
+const getDef=id=>FORMS.find(f=>f.id===id);
+const totalItems=def=>def&&Array.isArray(def.sections)
+  ?def.sections.reduce((a,s)=>a+((s&&Array.isArray(s.areas))?s.areas.reduce((b,g)=>b+((g&&Array.isArray(g.checks))?g.checks.length:0),0):0),0)
+  :0;
+const FIELDS=['model','serial','start','end','company','country','location','mechanic','hoursChassis','mileage','hoursCrane'];
+const recKey=f=>'lhi_rec_v2_'+f, draftKey=f=>'lhi_draft_v2_'+f;
+let items=[],currentId=null,currentForm=null;
+
+/* ===== Migrasi data versi lama ===== */
+(function migrateUnits(){
+  try{
+    const map={'ltm1120':'mc041','ltm1160':'mc043','ltm1250':'mc045','lr1800':'mc048'};
+    Object.keys(map).forEach(old=>{
+      const rk='lhi_rec_v2_'+old,nk='lhi_rec_v2_'+map[old];
+      const raw=lsGet(rk);
+      if(raw){
+        if(!lsGet(nk)){
+          try{
+            const arr=JSON.parse(raw)||[];
+            arr.forEach(r=>{if(r.form===old)r.form=map[old];});
+            lsSet(nk,JSON.stringify(arr));
+          }catch(e){lsSet(nk,raw);}
+        }
+        lsDel(rk);
+      }
+      lsDel('lhi_draft_v2_'+old);
+    });
+    const old0=lsGet('lhi_records_v1');
+    if(old0){
+      const recs=JSON.parse(old0)||[];
+      if(recs.length&&!lsGet(recKey('mc041'))){
+        recs.forEach(r=>r.form='mc041');
+        lsSet(recKey('mc041'),JSON.stringify(recs));
+      }
+      lsDel('lhi_records_v1');lsDel('lhi_draft_v1');
+    }
+  }catch(e){}
+})();
+
+/* ===== Tabel inspeksi ===== */
+function blankItems(){
+  const def=getDef(currentForm);
+  if(!def)return[];
+  const arr=[];
+  def.sections.forEach(s=>{((s&&s.areas)||[]).forEach(g=>{((g&&g.checks)||[]).forEach(()=>arr.push({check:'',remark:''}));});});
+  return arr;
+}
+function normalizeItems(saved){
+  const base=blankItems();
+  if(!Array.isArray(saved))return base;
+  for(let i=0;i<base.length;i++){
+    const s=saved[i];
+    if(s){base[i].check=s.check||'';base[i].remark=s.remark||'';}
+  }
+  return base;
+}
+function buildTable(){
+  const def=getDef(currentForm),tb=$('inspBody');
+  if(!tb)return;
+  tb.innerHTML='';
+  if(!def)return;
+  let i=0;
+  def.sections.forEach(sec=>{
+    if(sec&&sec.name){
+      const h=document.createElement('tr');h.className='hdr-row';
+      h.innerHTML='<td colspan="2">Inspected areas</td><td colspan="2">Inspection results</td>';
+      tb.appendChild(h);
+      const sn=document.createElement('tr');sn.className='sec-row';
+      sn.innerHTML='<td colspan="4">'+esc(sec.name)+'</td>';
+      tb.appendChild(sn);
+      const sh=document.createElement('tr');sh.className='subhdr-row';
+      sh.innerHTML='<td colspan="2">Area</td><td style="text-align:left">Check</td><td style="text-align:left">Remarks</td>';
+      tb.appendChild(sh);
+    }
+    ((sec&&sec.areas)||[]).forEach(g=>{
+      const ar=document.createElement('tr');ar.className='area-row';
+      ar.innerHTML='<td colspan="2">'+esc(g.area)+'</td><td></td><td></td>';
+      tb.appendChild(ar);
+      ((g&&g.checks)||[]).forEach(c=>{
+        const it=items[i]||{check:'',remark:''};
+        const tr=document.createElement('tr');
+        tr.innerHTML='<td class="ind"></td><td>'+esc(c)+'</td>'+
+          '<td class="check" data-i="'+i+'" tabindex="0" role="button" title="Ketuk: kosong → ✓ → X">'+esc(it.check)+'</td>'+
+          '<td class="c-rem"><input type="text" data-i="'+i+'" value="'+esc(it.remark)+'"></td>';
+        tb.appendChild(tr);i++;
+      });
+    });
+  });
+}
+function toggleCheck(i,cell){
+  if(!items[i])items[i]={check:'',remark:''};
+  const cur=items[i].check;
+  items[i].check=cur===''?'✓':cur==='✓'?'X':'';
+  cell.textContent=items[i].check;markDirty();
+}
+const tbEl=$('inspBody');
+tbEl.addEventListener('click',e=>{const c=e.target.closest('.check');if(c)toggleCheck(+c.dataset.i,c);});
+tbEl.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('check')){e.preventDefault();toggleCheck(+e.target.dataset.i,e.target);}});
+tbEl.addEventListener('contextmenu',e=>{if(e.target.closest('.check'))e.preventDefault();});
+tbEl.addEventListener('input',e=>{if(e.target.matches('input[type=text]')){const k=+e.target.dataset.i;if(items[k]){items[k].remark=e.target.value;markDirty();}}});
+
+function updateProgress(){
+  const done=items.filter(x=>x&&x.check).length;
+  $('prog').innerHTML='<b>'+done+'</b>/'+totalItems(getDef(currentForm))+'<span class="prog-tail"> item diperiksa</span>';
+}
+
+/* ===== Mesin tanda tangan presisi ===== */
+function makeSig(canvas,hintEl){
+  const ctx=canvas.getContext('2d');
+  const strokes=[];
+  let imgUrl=null,imgEl=null;
+  let hasInk=false,drawing=false,cur=null,lastT=0;
+
+  const showHint=v=>{if(hintEl)hintEl.style.display=v?'':'none';};
+  const rect=()=>canvas.getBoundingClientRect();
+  const mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
+  const baseW=()=>Math.min(2.6,Math.max(1.4,rect().width*0.0055));
+  const evXY=e=>{const r=rect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+
+  function setupCtx(){
+    const r=rect(),dpr=Math.max(window.devicePixelRatio||1,2);
+    canvas.width=Math.max(1,Math.round(r.width*dpr));
+    canvas.height=Math.max(1,Math.round(r.height*dpr));
+    canvas._w=r.width;canvas._h=r.height;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#000';ctx.fillStyle='#000';
+  }
+
+  function drawStroke(c,st){
+    const pts=st.pts,n=pts.length;
+    if(!n)return;
+    if(n===1){c.beginPath();c.arc(pts[0].x,pts[0].y,Math.max(pts[0].w*0.55,0.8),0,Math.PI*2);c.fill();return;}
+    c.beginPath();c.lineWidth=pts[0].w;
+    c.moveTo(pts[0].x,pts[0].y);
+    let m=mid(pts[0],pts[1]);
+    c.lineTo(m.x,m.y);c.stroke();
+    for(let i=1;i<=n-2;i++){
+      const m2=mid(pts[i],pts[i+1]);
+      c.beginPath();c.lineWidth=(pts[i].w+pts[i-1].w)/2;
+      c.moveTo(m.x,m.y);c.quadraticCurveTo(pts[i].x,pts[i].y,m2.x,m2.y);c.stroke();
+      m=m2;
+    }
+    c.beginPath();c.lineWidth=(pts[n-1].w+pts[n-2].w)/2;
+    c.moveTo(m.x,m.y);c.lineTo(pts[n-1].x,pts[n-1].y);c.stroke();
+  }
+
+  function renderAll(){
+    const r=rect();
+    if(r.width<5)return;
+    ctx.clearRect(0,0,r.width+2,r.height+2);
+    strokes.forEach(st=>drawStroke(ctx,st));
+    if(!strokes.length&&imgEl&&imgUrl)ctx.drawImage(imgEl,0,0,r.width,r.height);
+  }
+
+  function addPoint(ev,first){
+    const p=evXY(ev),pts=cur.pts,base=baseW();
+    if(!first){
+      const lp=pts[pts.length-1];
+      if(Math.hypot(p.x-lp.x,p.y-lp.y)<1.2)return;
+    }
+    let w;
+    if(ev.pointerType==='pen'&&ev.pressure>0){
+      const target=base*(0.3+ev.pressure*2.4);
+      w=pts.length?pts[pts.length-1].w+(target-pts[pts.length-1].w)*0.5:base*1.15;
+    }else{
+      if(pts.length){
+        const lp=pts[pts.length-1];
+        const v=Math.hypot(p.x-lp.x,p.y-lp.y)/Math.max(ev.timeStamp-lastT,1);
+        const target=base*Math.min(Math.max(1.55-v*0.45,0.5),1.55);
+        w=pts[pts.length-1].w+(target-pts[pts.length-1].w)*0.3;
+      }else w=base*1.15;
+    }
+    w=Math.min(Math.max(w,base*0.5),base*2.2);
+    lastT=ev.timeStamp;
+    pts.push({x:p.x,y:p.y,w});
+    hasInk=true;showHint(false);
+    const n=pts.length;
+    if(n===2){
+      const m=mid(pts[0],pts[1]);
+      ctx.beginPath();ctx.lineWidth=pts[0].w;
+      ctx.moveTo(pts[0].x,pts[0].y);ctx.lineTo(m.x,m.y);ctx.stroke();
+    }else if(n>2){
+      const a=mid(pts[n-3],pts[n-2]),cp=pts[n-2],b=mid(pts[n-2],pts[n-1]);
+      ctx.beginPath();ctx.lineWidth=(pts[n-2].w+pts[n-3].w)/2;
+      ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo(cp.x,cp.y,b.x,b.y);ctx.stroke();
+    }
+  }
+
+  function finish(){
+    if(!drawing)return;drawing=false;
+    const pts=cur?cur.pts:[];cur=null;
+    const n=pts.length;
+    if(n>=2){
+      const a=mid(pts[n-2],pts[n-1]);
+      ctx.beginPath();ctx.lineWidth=(pts[n-1].w+pts[n-2].w)/2;
+      ctx.moveTo(a.x,a.y);ctx.lineTo(pts[n-1].x,pts[n-1].y);ctx.stroke();
+    }else if(n===1){
+      ctx.beginPath();ctx.arc(pts[0].x,pts[0].y,Math.max(pts[0].w*0.55,0.8),0,Math.PI*2);ctx.fill();
+    }
+    markDirty();
+  }
+
+  canvas.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    e.preventDefault();
+    if(rect().width<5)return;
+    drawing=true;cur={pts:[]};strokes.push(cur);
+    try{canvas.setPointerCapture(e.pointerId);}catch(_){}
+    addPoint(e,true);
+  });
+  canvas.addEventListener('pointermove',e=>{
+    if(!drawing||!cur)return;
+    let evs=null;
+    try{evs=e.getCoalescedEvents?e.getCoalescedEvents():null;}catch(_){evs=null;}
+    if(evs&&evs.length)for(const ev of evs)addPoint(ev,false);
+    else addPoint(e,false);
+  });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(t=>canvas.addEventListener(t,finish));
+  canvas.addEventListener('contextmenu',e=>e.preventDefault());
+
+  function resize(){
+    const r=rect();
+    if(r.width<5||r.height<5)return;
+    const pw=canvas._w||0,ph=canvas._h||0;
+    setupCtx();
+    if(pw>10&&ph>10){
+      const sx=r.width/pw,sy=r.height/ph;
+      if(Math.abs(sx-1)>0.002||Math.abs(sy-1)>0.002){
+        const sw=Math.min(Math.max((sx+sy)/2,0.5),2);
+        strokes.forEach(st=>st.pts.forEach(p=>{p.x*=sx;p.y*=sy;p.w*=sw;}));
+      }
+    }
+    renderAll();
+  }
+
+  return{
+    resize,
+    clear(){strokes.length=0;imgUrl=null;imgEl=null;hasInk=false;
+      const r=rect();if(r.width>5)ctx.clearRect(0,0,r.width+2,r.height+2);
+      showHint(true);},
+    set(url){
+      strokes.length=0;imgUrl=url||null;imgEl=null;
+      if(!url){hasInk=false;const r=rect();if(r.width>5)ctx.clearRect(0,0,r.width+2,r.height+2);showHint(true);return;}
+      hasInk=true;showHint(false);
+      imgEl=new Image();
+      imgEl.onload=()=>{if(rect().width>5)renderAll();};
+      imgEl.src=url;
+    },
+    setStrokes(d){
+      strokes.length=0;imgUrl=null;imgEl=null;
+      if(!d||!Array.isArray(d.strokes)||!d.strokes.length){
+        hasInk=false;const r=rect();if(r.width>5)ctx.clearRect(0,0,r.width+2,r.height+2);showHint(true);return;
+      }
+      const r=rect();
+      const sx=(r.width>5&&d.w)?r.width/d.w:1, sy=(r.height>5&&d.h)?r.height/d.h:1;
+      const sw=Math.min(Math.max((sx+sy)/2,0.5),2);
+      d.strokes.forEach(st=>{
+        if(st&&Array.isArray(st.pts)&&st.pts.length)
+          strokes.push({pts:st.pts.map(p=>({x:p.x*sx,y:p.y*sy,w:p.w*sw}))});
+      });
+      hasInk=strokes.length>0;showHint(!hasInk);
+      if(r.width>5)renderAll();
+    },
+    pack(){
+      if(strokes.length){
+        const r=rect();
+        return{w:Math.round(r.width),h:Math.round(r.height),
+          strokes:strokes.map(st=>({pts:st.pts.map(p=>({x:+p.x.toFixed(2),y:+p.y.toFixed(2),w:+p.w.toFixed(2)}))}))};
+      }
+      if(imgUrl)return{img:imgUrl};
+      return null;
+    },
+    data(scale){
+      if(!hasInk)return null;
+      const s=scale||3,r=rect();
+      const w=Math.max(80,(r.width||300)*s),h=Math.max(60,(r.height||180)*s);
+      const off=document.createElement('canvas');
+      off.width=Math.round(w);off.height=Math.round(h);
+      const c=off.getContext('2d');
+      c.setTransform(s,0,0,s,0,0);
+      c.lineCap='round';c.lineJoin='round';c.strokeStyle='#000';c.fillStyle='#000';
+      strokes.forEach(st=>drawStroke(c,st));
+      if(!strokes.length&&imgEl&&imgUrl)c.drawImage(imgEl,0,0,r.width||300,r.height||180);
+      return off.toDataURL('image/png');
+    }
+  };
+}
+const pads={
+  mechanic:makeSig($('sigMechanic'),$('hintMechanic')),
+  operator:makeSig($('sigOperator'),$('hintOperator')),
+  expert:makeSig($('sigExpert'),$('hintExpert'))
+};
+document.querySelectorAll('.clear-sig').forEach(b=>b.addEventListener('click',()=>{
+  if(!confirm('Reset tanda tangan ini dan gambar ulang dari awal?'))return;
+  pads[b.dataset.pad].clear();markDirty();
+  toast('🔄 Tanda tangan direset — silakan tanda tangani ulang');
+}));
+let rzT;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>Object.values(pads).forEach(p=>p.resize()),200);});
+window.addEventListener('orientationchange',()=>setTimeout(()=>Object.values(pads).forEach(p=>p.resize()),350));
+
+/* ===== Kumpul / terapkan data ===== */
+function setSig(p,val){
+  if(!val){p.set(null);return;}
+  if(typeof val==='string'){p.set(val);return;}
+  p.setStrokes(val);
+}
+function collect(){
+  const meta={};FIELDS.forEach(f=>{const el=$('m_'+f);meta[f]=el?el.value:'';});
+  return{
+    form:currentForm,meta,
+    items:items.map(x=>({check:x.check,remark:x.remark})),
+    others:$('othersRemarks').value,
+    names:{mechName:$('mechName').value,mechDate:$('mechDate').value,opName:$('opName').value,opDate:$('opDate').value,expName:$('expName').value,expDate:$('expDate').value},
+    sigs:{mechanic:pads.mechanic.pack(),operator:pads.operator.pack(),expert:pads.expert.pack()}
+  };
+}
+function renderStatement(){
+  const def=getDef(currentForm);
+  $('statement').innerHTML=(def&&def.photo)
+    ?'This report is trued, genuine and without prejudice based on at the time of inspection.<br>Please attached photo together with the report'
+    :'This report is trued, genuine and without prejudice based on at the time of inspection.';
+}
+function apply(d){
+  d=d||{};
+  const def=getDef(currentForm);
+  FIELDS.forEach(f=>{
+    const el=$('m_'+f);
+    let dv='';
+    if(def){
+      if(f==='model')dv=def.model||'';
+      else if(f==='serial')dv=def.serial||'';
+    }
+    if(el)el.value=(d.meta&&d.meta[f]!=null)?d.meta[f]:dv;
+  });
+  items=normalizeItems(d.items);
+  buildTable();
+  $('othersRemarks').value=d.others||'';
+  renderStatement();
+  $('unitTag').textContent='';
+  const n=d.names||{};
+  $('mechName').value=n.mechName||'';$('mechDate').value=n.mechDate||'';
+  $('opName').value=n.opName||'';$('opDate').value=n.opDate||'';
+  $('expName').value=n.expName||'';$('expDate').value=n.expDate||'';
+  const s=d.sigs||{};
+  setSig(pads.mechanic,s.mechanic);setSig(pads.operator,s.operator);setSig(pads.expert,s.expert);
+  currentId=d.id||null;
+  updateProgress();
+  invalidatePdf();
+}
+
+/* ===== Autosave draft ===== */
+let dtT;
+function markDirty(){
+  if(!currentForm)return;
+  updateProgress();invalidatePdf();clearTimeout(dtT);
+  dtT=setTimeout(()=>{
+    lsSet(draftKey(currentForm),JSON.stringify(collect()));
+    $('draftStatus').textContent='Draf tersimpan otomatis · '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    refreshPrintSigs();
+  },500);
+}
+
+/* ===== Penyimpanan per unit ===== */
+function getRecords(f){try{return JSON.parse(lsGet(recKey(f)))||[];}catch(e){return[];}}
+function setRecords(f,r){if(!lsSet(recKey(f),JSON.stringify(r)))toast('⚠ Gagal menyimpan');}
+function saveRecord(){
+  if(!currentForm)return;
+  const rec=collect();rec.id=currentId||Date.now();rec.savedAt=new Date().toISOString();
+  const recs=getRecords(currentForm);const ix=recs.findIndex(r=>r.id===rec.id);
+  if(ix>=0)recs[ix]=rec;else recs.unshift(rec);
+  setRecords(currentForm,recs);currentId=rec.id;
+  lsSet(draftKey(currentForm),JSON.stringify(rec));
+  toast(ix>=0?'✔ Perubahan tersimpan':'✔ Formulir tersimpan ke riwayat');
+}
+
+/* ===== Riwayat ===== */
+function renderHistory(){
+  const recs=getRecords(currentForm),list=$('histList'),def=getDef(currentForm);
+  if(!recs.length){list.innerHTML='<p style="color:#666">Belum ada data tersimpan untuk unit ini.</p>';return;}
+  list.innerHTML=recs.map(r=>{
+    const arr=r.items||[],done=arr.filter(x=>x&&x.check).length;
+    const dt=r.savedAt?new Date(r.savedAt).toLocaleString('id-ID'):'-';
+    const m=r.meta||{};
+    return '<div class="hist-item"><div><strong>'+esc(def?def.unit:'')+' · '+esc(m.model||'-')+'</strong>'+
+      '<div class="hist-meta">'+esc(m.start||'?')+' s/d '+esc(m.end||'?')+' · '+done+'/'+arr.length+' item · '+esc(dt)+'</div></div>'+
+      '<div class="hist-acts"><button class="btn small" data-load="'+r.id+'">Muat</button>'+
+      '<button class="btn small danger" data-del="'+r.id+'">Hapus</button></div></div>';
+  }).join('');
+}
+ $('btnHistory').addEventListener('click',()=>{renderHistory();$('histModal').hidden=false;});
+ $('histClose').addEventListener('click',()=>$('histModal').hidden=true);
+ $('histModal').addEventListener('click',e=>{if(e.target===$('histModal'))$('histModal').hidden=true;});
+ $('histList').addEventListener('click',e=>{
+  const lb=e.target.closest('[data-load]'),db=e.target.closest('[data-del]');
+  if(lb){const rec=getRecords(currentForm).find(r=>String(r.id)===lb.dataset.load);
+    if(rec){apply(rec);markDirty();$('histModal').hidden=true;toast('✔ Data dimuat');}}
+  if(db){if(confirm('Hapus data ini dari riwayat?')){setRecords(currentForm,getRecords(currentForm).filter(r=>String(r.id)!==db.dataset.del));renderHistory();toast('Data dihapus');}}
+});
+
+/* ===== Unduhan biasa (dipakai fallback Simpan PDF) ===== */
+function downloadBlob(blob,name){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=name;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+
+/* ===== Simpan dgn dialog lokasi (desktop) / berbagi (HP) ===== */
+const canFsSave=()=>{try{return!!(window.showSaveFilePicker&&window.isSecureContext);}catch(e){return false;}};
+async function saveBlobSmart(blob,name,mime,ext,desc){
+  if(canFsSave()){
+    try{
+      const handle=await window.showSaveFilePicker({
+        suggestedName:name,
+        types:[{description:desc,accept:{[mime]:[ext]}}]
+      });
+      const w=await handle.createWritable();
+      await w.write(blob);await w.close();
+      return 'picked';
+    }catch(e){
+      if(e&&e.name==='AbortError')return 'cancel';
+    }
+  }
+  try{
+    const file=new File([blob],name,{type:mime});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:name});
+      return 'shared';
+    }
+  }catch(e){
+    if(e&&(e.name==='AbortError'))return 'cancel';
+  }
+  downloadBlob(blob,name);
+  return 'downloaded';
+}
+
+/* ===== Nama file PDF: Unit - Daily Inspection - tanggal ===== */
+function fmtD(v){if(!v)return'';const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);return m?m[3]+'/'+m[2]+'/'+m[1]:v;}
+function pdfBaseName(){
+  const d=collect(),def=getDef(currentForm);
+  const unit=def?def.unit:'Unit';
+  let tgl=d.meta.start||'';
+  if(tgl){
+    const mm=/^(\d{4})-(\d{2})-(\d{2})$/.exec(tgl);
+    tgl=mm?(mm[3]+'-'+mm[2]+'-'+mm[1]):tgl;
+  }else{
+    const now=new Date();
+    tgl=('0'+now.getDate()).slice(-2)+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+now.getFullYear();
+  }
+  return (unit+' - Daily Inspection - '+tgl).replace(/[\\/:*?"<>|]+/g,'-').trim();
+}
+const pdfName=()=>pdfBaseName()+'.pdf';
+
+/* =====================================================================
+   PEMBANGUN PDF VEKTOR (jsPDF)
+===================================================================== */
+let jsPdfPromise=null;
+function loadJsPdf(){
+  if(window.jspdf&&window.jspdf.jsPDF)return Promise.resolve();
+  if(jsPdfPromise)return jsPdfPromise;
+  const urls=['https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+              'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js'];
+  jsPdfPromise=new Promise((res,rej)=>{
+    let i=0;
+    const tryNext=()=>{
+      if(i>=urls.length){jsPdfPromise=null;rej(new Error('lib'));return;}
+      const s=document.createElement('script');
+      s.src=urls[i++];
+      s.onload=()=>{(window.jspdf&&window.jspdf.jsPDF)?res():tryNext();};
+      s.onerror=()=>{s.remove();tryNext();};
+      document.head.appendChild(s);
+    };
+    tryNext();
+  });
+  return jsPdfPromise;
+}
+
+async function buildPdfBlob(){
+  await loadJsPdf();
+  if(!currentForm)throw new Error('noform');
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'pt',format:'a4',compress:true});
+  const PW=595.28,PH=841.89,ML=42,MT=40,MB=48;
+  const W=PW-ML-42;
+  const GRAY=[217,217,217],ORANGE=[247,148,29];
+  const data=collect(),def=getDef(currentForm);
+  const names=data.names;
+  const sigUrls={
+    mechanic:pads.mechanic.data(2),
+    operator:pads.operator.data(2),
+    expert:pads.expert.data(2)
+  };
+  function sigDims(k){const cv=$('sig'+k[0].toUpperCase()+k.slice(1));return{w:(cv&&cv.clientWidth)||300,h:(cv&&cv.clientHeight)||180};}
+  try{doc.setLineCap('round');doc.setLineJoin('round');}catch(e){}
+
+  const x0=ML,x1=ML+0.04*W,x2=ML+0.50*W,x3=ML+0.60*W,x4=ML+W;
+  const c1=ML,c2=ML+0.30*W,c3=c2+0.19*W,c4=c3+0.19*W,cEnd=ML+W;
+  let y=MT;
+
+  function drawCheck(cx,cy,s){
+    doc.setLineWidth(Math.max(1.1,s*0.2));
+    doc.line(cx-s*0.45,cy+s*0.05,cx-s*0.10,cy+s*0.42);
+    doc.line(cx-s*0.10,cy+s*0.42,cx+s*0.48,cy-s*0.40);
+  }
+  function pageBreak(){doc.addPage();y=MT;drawBand();y+=20;drawSubHeader();}
+  function drawBand(){
+    doc.setDrawColor(0);doc.setFillColor(GRAY[0],GRAY[1],GRAY[2]);doc.setLineWidth(0.8);
+    doc.rect(x0,y,x2-x0,20,'FD');
+    doc.rect(x2,y,x4-x2,20,'FD');
+    doc.setFont('helvetica','bold');doc.setFontSize(10);
+    doc.text('Inspected areas',(x0+x2)/2,y+6,{align:'center',baseline:'top'});
+    doc.text('Inspection results',(x2+x4)/2,y+6,{align:'center',baseline:'top'});
+  }
+  function drawSubHeader(){
+    doc.setDrawColor(0);doc.setLineWidth(0.8);
+    doc.rect(x0,y,x4-x0,16);
+    doc.line(x2,y,x2,y+16);doc.line(x3,y,x3,y+16);
+    doc.setFont('helvetica','bold');doc.setFontSize(9);
+    doc.text('Area',x0+5,y+3,{baseline:'top'});
+    doc.text('Check',x2+5,y+3,{baseline:'top'});
+    doc.text('Remarks',x3+5,y+3,{baseline:'top'});
+    y+=16;
+  }
+  function startSection(sec){
+    const need=sec.name?20+18+16:20+16;
+    if(y+need>PH-MB){doc.addPage();y=MT;}
+    drawBand();y+=20;
+    if(sec.name){
+      doc.setLineWidth(0.8);
+      doc.setFillColor(GRAY[0],GRAY[1],GRAY[2]);
+      doc.rect(x0,y,W,18,'FD');
+      doc.setFont('helvetica','bold');doc.setFontSize(11);
+      doc.text(sec.name,x0+6,y+4,{baseline:'top'});
+      y+=18;
+    }
+    drawSubHeader();
+  }
+  function areaRow(name){
+    const h=16;
+    if(y+h>PH-MB)pageBreak();
+    doc.setDrawColor(0);doc.setFillColor(GRAY[0],GRAY[1],GRAY[2]);doc.setLineWidth(0.8);
+    doc.rect(x0,y,x2-x0,h,'FD');
+    doc.rect(x2,y,x3-x2,h);doc.rect(x3,y,x4-x3,h);
+    doc.setFont('helvetica','bold');doc.setFontSize(9);
+    doc.text(name,x0+5,y+h/2,{baseline:'middle'});
+    y+=h;
+  }
+  function checkRow(text,sym,remark){
+    doc.setFont('helvetica','normal');doc.setFontSize(8.5);
+    const itemLines=doc.splitTextToSize(text,(x2-x1)-14)||[text];
+    const remLines=remark?doc.splitTextToSize(remark,x4-x3-10):[];
+    const lh=10.5;
+    const h=Math.max(18,Math.max(itemLines.length,remLines.length)*lh+8);
+    if(y+h>PH-MB)pageBreak();
+    doc.setDrawColor(0);doc.setLineWidth(0.8);
+    doc.rect(x0,y,x1-x0,h);
+    doc.rect(x1,y,x2-x1,h);
+    doc.rect(x2,y,x3-x2,h);
+    doc.rect(x3,y,x4-x3,h);
+    doc.setFontSize(8.5);
+    itemLines.forEach((ln,i)=>doc.text(ln,x1+10,y+4+i*lh,{baseline:'top'}));
+    if(sym==='✓')drawCheck((x2+x3)/2,y+h/2,10);
+    else if(sym==='X'){
+      doc.setFont('helvetica','bold');doc.setFontSize(11);
+      doc.text('X',(x2+x3)/2,y+h/2,{align:'center',baseline:'middle'});
+    }
+    if(remLines.length){
+      doc.setFont('helvetica','normal');doc.setFontSize(8.5);
+      remLines.forEach((ln,i)=>doc.text(ln,x3+5,y+4+i*lh,{baseline:'top'}));
+    }
+    y+=h;
+  }
+
+  doc.setFont('helvetica','bold');doc.setFontSize(24);
+  doc.text('LIEBHERR',PW/2,26,{align:'center',baseline:'top'});
+  doc.setFillColor(ORANGE[0],ORANGE[1],ORANGE[2]);
+  doc.rect(ML,60,W,5,'F');
+  doc.setFontSize(10);
+  doc.text('MOBILE CRANE AND CRAWLER DIVISION',ML,74,{baseline:'top'});
+
+  y=92;
+  doc.setFillColor(GRAY[0],GRAY[1],GRAY[2]);
+  doc.rect(ML,y,W,24,'F');
+  doc.setDrawColor(0);doc.setLineWidth(1.4);
+  doc.rect(ML+8,y+6,9,12);
+  doc.setFont('helvetica','bold');doc.setFontSize(11);
+  doc.text('DAILY INSPECTION RECORD',ML+24,y+7,{baseline:'top'});
+  doc.setFont('helvetica','normal');doc.setFontSize(7.5);
+  drawCheck(ML+205,y+12,7);
+  doc.text('= check',ML+213,y+9,{baseline:'top'});
+  doc.text('X= No action taken',ML+258,y+9,{baseline:'top'});
+  y+=24+12;
+
+  const m=data.meta;
+  const infoRows=[
+    ['Crane Model',m.model,'Start Date / End Date',fmtD(m.start)+(m.end?'  /  '+fmtD(m.end):'')],
+    ['Serial No.',m.serial,'Company Name',m.company],
+    ['Engine Hours for Chassis',m.hoursChassis,'Country',m.country],
+    ['Chassis mileage (km)',m.mileage,'Location / place',m.location],
+    ['Engine Hours for Crane',m.hoursCrane,'Mechanic Name',m.mechanic]
+  ];
+  const rh=25;
+  doc.setDrawColor(0);doc.setLineWidth(0.8);
+  for(let i=0;i<=infoRows.length;i++)doc.line(c1,y+i*rh,cEnd,y+i*rh);
+  [c1,c2,c3,c4,cEnd].forEach(cx=>doc.line(cx,y,cx,y+infoRows.length*rh));
+  infoRows.forEach((r,i)=>{
+    const ry=y+i*rh;
+    doc.setFont('helvetica','bold');doc.setFontSize(8);
+    doc.text(r[0],c1+6,ry+rh/2,{baseline:'middle'});
+    doc.setFontSize(9);
+    doc.text(String(r[1]||''),(c2+c3)/2,ry+rh/2,{align:'center',baseline:'middle'});
+    doc.setFontSize(8);
+    doc.text(r[2],c3+6,ry+rh/2,{baseline:'middle'});
+    doc.setFontSize(8.5);
+    doc.text(String(r[3]||''),(c4+cEnd)/2,ry+rh/2,{align:'center',baseline:'middle'});
+  });
+  y+=infoRows.length*rh+14;
+
+  function itemsOffset(sec,g,ci){
+    let idx=0;
+    for(const s of def.sections){
+      for(const gg of s.areas){
+        if(s===sec&&gg===g)return idx+ci;
+        idx+=gg.checks.length;
+      }
+    }
+    return idx;
+  }
+  def.sections.forEach(sec=>{
+    startSection(sec);
+    sec.areas.forEach(g=>{
+      areaRow(g.area);
+      g.checks.forEach((c,ci)=>{
+        const it=data.items[itemsOffset(sec,g,ci)]||{check:'',remark:''};
+        checkRow(c,it.check,it.remark);
+      });
+    });
+  });
+
+  const othersText=(data.others||'').trim();
+  const boxH=170;
+  if(y+boxH+20>PH-MB){doc.addPage();y=MT;}
+  doc.setDrawColor(0);doc.setLineWidth(1.2);
+  doc.rect(ML,y,W,boxH);
+  doc.setFont('helvetica','bolditalic');doc.setFontSize(11);
+  doc.text('Others remarks',ML+9,y+8,{baseline:'top'});
+  const tw=doc.getTextWidth('Others remarks');
+  doc.setLineWidth(0.7);doc.line(ML+9,y+23,ML+9+tw,y+23);
+  if(othersText){
+    doc.setFont('helvetica','normal');doc.setFontSize(9);
+    const lines=doc.splitTextToSize(othersText,W-26);
+    let ty=y+32;
+    lines.forEach(ln=>{if(ty<y+boxH-8){doc.text(ln,ML+14,ty,{baseline:'top'});ty+=12;}});
+  }
+  y+=boxH+18;
+
+  const stLines=def.photo
+    ?['This report is trued, genuine and without prejudice based on at the time of inspection.','Please attached photo together with the report']
+    :['This report is trued, genuine and without prejudice based on at the time of inspection.'];
+  if(y+stLines.length*14+12>PH-MB){doc.addPage();y=MT;}
+  doc.setFont('helvetica','bold');doc.setFontSize(10);
+  stLines.forEach((ln,i)=>doc.text(ln,ML,y+i*14,{baseline:'top'}));
+  y+=stLines.length*14+16;
+
+  if(y+150>PH-MB){doc.addPage();y=MT;}
+  const colW=(W-40)/2;
+  [['mechanic','Checked by Mechanic',names.mechName,names.mechDate,ML],
+   ['operator','Verify by Crane Operator',names.opName,names.opDate,ML+colW+40]
+  ].forEach(([k,role,nm,dt,x])=>{
+    const url=sigUrls[k];
+    if(url){
+      const d=sigDims(k);
+      let w=colW,h=w*d.h/d.w;
+      if(h>68){h=68;w=h*d.w/d.h;}
+      doc.addImage(url,'PNG',x+(colW-w)/2,y+(70-h),w,h);
+    }
+    doc.setDrawColor(0);doc.setLineWidth(0.9);
+    doc.line(x,y+70,x+colW,y+70);
+    doc.setFont('helvetica','bold');doc.setFontSize(9);
+    doc.text('Signature',x,y+76,{baseline:'top'});
+    doc.text(role,x,y+89,{baseline:'top'});
+    doc.text('Name:',x,y+104,{baseline:'top'});
+    if(nm){doc.setFont('helvetica','normal');doc.text(nm,x+32,y+104,{baseline:'top'});doc.setFont('helvetica','bold');}
+    doc.text('Date:',x,y+117,{baseline:'top'});
+    if(dt){doc.setFont('helvetica','normal');doc.text(fmtD(dt),x+28,y+117,{baseline:'top'});doc.setFont('helvetica','bold');}
+  });
+  y+=140;
+
+  if(y+130>PH-MB){doc.addPage();y=MT;}
+  doc.setFont('helvetica','bold');doc.setFontSize(12);
+  doc.text('Acknowledge by Technical Expert',ML,y,{baseline:'top'});
+  y+=20;
+  doc.setFontSize(9);
+  doc.text('Name:',ML,y,{baseline:'top'});
+  if(names.expName){doc.setFont('helvetica','normal');doc.text(names.expName,ML+32,y,{baseline:'top'});doc.setFont('helvetica','bold');}
+  doc.text('Date:',ML,y+14,{baseline:'top'});
+  if(names.expDate){doc.setFont('helvetica','normal');doc.text(fmtD(names.expDate),ML+28,y+14,{baseline:'top'});doc.setFont('helvetica','bold');}
+  y+=36;
+  const lw=W*0.62;
+  if(sigUrls.expert){
+    const d=sigDims('expert');
+    let w=lw,h=w*d.h/d.w;
+    if(h>58){h=58;w=h*d.w/d.h;}
+    doc.addImage(sigUrls.expert,'PNG',ML+(lw-w)/2,y+(60-h),w,h);
+  }
+  doc.setDrawColor(0);doc.setLineWidth(0.9);
+  doc.line(ML,y+62,ML+lw,y+62);
+  doc.setFont('helvetica','bold');doc.setFontSize(9);
+  doc.text('Signature',ML,y+68,{baseline:'top'});
+
+  const n=doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){
+    doc.setPage(i);
+    doc.setFont('times','normal');doc.setFontSize(9);
+    doc.setTextColor(0);
+    doc.text('Crane Inspection Check List',ML,PH-26,{baseline:'top'});
+    doc.text(String(i),PW/2,PH-26,{align:'center',baseline:'top'});
+  }
+  return doc.output('blob');
+}
+
+/* =====================================================================
+   CACHE PDF + STATUS MENU
+===================================================================== */
+const pdfCache={hash:null,promise:null,blob:null,busy:false};
+function pdfDataHash(){try{return JSON.stringify(collect());}catch(e){return String(Date.now());}}
+function invalidatePdf(){pdfCache.hash=null;pdfCache.blob=null;pdfCache.promise=null;updateShareMenuStatus();}
+function getPdfBlob(){
+  const h=pdfDataHash();
+  if(pdfCache.blob&&pdfCache.hash===h)return Promise.resolve(pdfCache.blob);
+  if(pdfCache.promise&&pdfCache.hash===h)return pdfCache.promise;
+  pdfCache.hash=h;pdfCache.busy=true;updateShareMenuStatus();
+  pdfCache.promise=buildPdfBlob()
+    .then(b=>{pdfCache.blob=b;pdfCache.busy=false;updateShareMenuStatus();return b;})
+    .catch(e=>{pdfCache.hash=null;pdfCache.promise=null;pdfCache.busy=false;updateShareMenuStatus();throw e;});
+  return pdfCache.promise;
+}
+function updateShareMenuStatus(){
+  const el=$('pdfStatus');if(!el)return;
+  if(pdfCache.busy){el.hidden=false;el.textContent='⏳ Menyiapkan PDF…';el.className='menu-status st-busy';}
+  else if(pdfCache.blob){el.hidden=false;el.textContent='✔ PDF siap diunggah';el.className='menu-status st-ok';}
+  else el.hidden=true;
+}
+
+/* ===== Tombol sibuk ===== */
+function setBusy(on){
+  ['btnDriveUpload','btnPrintPdf','btnPrintPaper','btnSave','btnHistory'].forEach(id=>{const b=$(id);if(b)b.disabled=on;});
+}
+
+/* =====================================================================
+   GOOGLE DRIVE (via Google Apps Script) — satu Drive pusat
+===================================================================== */
+const driveKey='lhi_drive_url_v1';
+const driveGet=()=>lsGet(driveKey)||DRIVE_DEFAULT_URL||'';
+const driveOk=()=>!!driveGet();
+function updateDriveUi(){
+  const up=$('btnDriveUpload'),st=$('btnDriveSetup');
+  if(up)up.hidden=!driveOk();
+  if(st)st.textContent=driveOk()?'⚙ Google Drive: terhubung ✔':'⚙ Hubungkan Google Drive';
+}
+async function uploadToDrive(blob,name){
+  const url=driveGet();
+  if(!url)throw new Error('Belum terhubung');
+  const def=getDef(currentForm);
+  const unit=(def&&def.unit)?def.unit:'LAINNYA';
+  const b64=await new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(String(r.result).split(',')[1]);
+    r.onerror=()=>rej(new Error('Baca file gagal'));
+    r.readAsDataURL(blob);
+  });
+  let resp;
+  try{
+    resp=await fetch(url,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({name:name,folder:unit,file:b64})
+    });
+  }catch(e){
+    throw new Error(navigator.onLine===false?'Tidak ada koneksi internet':'Apps Script tidak bisa diakses — deploy ulang Web App dengan "Who has access: Anyone" (Siapa saja)');
+  }
+  let j=null;
+  try{j=await resp.json();}catch(e){}
+  if(!j)throw new Error('Respons Apps Script bukan JSON — periksa kode doPost & akses "Anyone"');
+  if(!j.ok)throw new Error(j.error||'Server menolak');
+}
+/* --- modal pengaturan --- */
+ $('btnDriveSetup').addEventListener('click',()=>{
+  $('driveMenu').hidden=true;$('printMenu').hidden=true;
+  $('driveUrl').value=lsGet(driveKey)||DRIVE_DEFAULT_URL||'';
+  $('driveModal').hidden=false;
+});
+ $('driveClose').addEventListener('click',()=>$('driveModal').hidden=true);
+ $('driveModal').addEventListener('click',e=>{if(e.target===$('driveModal'))$('driveModal').hidden=true;});
+ $('driveSave').addEventListener('click',()=>{
+  const v=($('driveUrl').value||'').trim();
+  if(!/^https:\/\/script\.google\.com\/.+\/exec$/.test(v)){
+    toast('⚠ URL tidak valid — harus URL Web App berakhiran /exec');
+    return;
+  }
+  if(lsSet(driveKey,v)){
+    $('driveModal').hidden=true;
+    updateDriveUi();
+    toast('✔ Google Drive terhubung — tombol ☁ Upload kini aktif');
+  }else toast('⚠ Gagal menyimpan');
+});
+ $('driveRemove').addEventListener('click',()=>{
+  if(!confirm('Lepas koneksi Google Drive?'))return;
+  lsDel(driveKey);
+  $('driveUrl').value='';
+  updateDriveUi();
+  toast('Koneksi Google Drive dilepas');
+});
+/* --- upload --- */
+ $('btnDriveUpload').addEventListener('click',async()=>{
+  $('driveMenu').hidden=true;
+  if(!driveOk()){toast('⚠ Hubungkan Google Drive dahulu (⚙)');return;}
+  setBusy(true);
+  const lbl=$('lblDrive');if(lbl)lbl.textContent='⏳ Mengunggah…';
+  toast('⏳ Mengunggah ke Google Drive…');
+  try{
+    const blob=await getPdfBlob();
+    await uploadToDrive(blob,pdfName());
+    toast('✔ PDF terunggah ke Google Drive: '+pdfName());
+  }catch(e){
+    toast('⚠ Unggah gagal: '+(e&&e.message?e.message:'periksa koneksi & URL Apps Script'));
+  }finally{
+    setBusy(false);
+    const l2=$('lblDrive');if(l2)l2.textContent='Google Drive ▾';
+  }
+});
+
+/* --- menu Google Drive --- */
+ $('btnDrive').addEventListener('click',e=>{
+  e.stopPropagation();
+  const m=$('driveMenu');
+  $('printMenu').hidden=true;
+  m.hidden=!m.hidden;
+  if(!m.hidden&&currentForm){getPdfBlob().catch(()=>{});}
+});
+/* --- menu Cetak --- */
+ $('btnPrint').addEventListener('click',e=>{
+  e.stopPropagation();
+  const m=$('printMenu');
+  $('driveMenu').hidden=true;
+  m.hidden=!m.hidden;
+  if(!m.hidden&&currentForm){getPdfBlob().catch(()=>{});}
+});
+document.addEventListener('click',e=>{
+  if(!$('driveMenu').hidden&&!e.target.closest('#driveWrap'))$('driveMenu').hidden=true;
+  if(!$('printMenu').hidden&&!e.target.closest('#printWrap'))$('printMenu').hidden=true;
+});
+
+/* --- pilihan di menu Cetak --- */
+ $('btnPrintPdf').addEventListener('click',async()=>{
+  $('printMenu').hidden=true;setBusy(true);toast('⏳ Membuat PDF…');
+  try{
+    const blob=await getPdfBlob();
+    const res=await saveBlobSmart(blob,pdfName(),'application/pdf','.pdf','Dokumen PDF');
+    if(res==='picked')toast('✔ PDF tersimpan di lokasi pilihan Anda');
+    else if(res==='shared')toast('✔ Panel berbagi: pilih "Simpan ke File" untuk memilih lokasi, atau bagikan langsung');
+    else if(res==='downloaded')toast('✔ PDF diunduh: '+pdfName());
+  }catch(e){
+    toast('⚠ Gagal membuat PDF (perlu internet sekali). Coba lagi.');
+  }finally{setBusy(false);}
+});
+ $('btnPrintPaper').addEventListener('click',()=>{
+  $('printMenu').hidden=true;
+  doPrint();
+});
+
+/* =====================================================================
+   CETAK KE PRINTER
+===================================================================== */
+const SIG_KEYS=['mechanic','operator','expert'];
+const cap=k=>k[0].toUpperCase()+k.slice(1);
+const printImgs={};
+function refreshPrintSigs(){
+  if(!currentForm)return;
+  SIG_KEYS.forEach(k=>{
+    const cv=$('sig'+cap(k));
+    if(!cv)return;
+    const url=pads[k].data(4);
+    let img=printImgs[k];
+    if(url){
+      if(!img||img.dataset.url!==url){
+        if(img)img.remove();
+        img=new Image();
+        img.className='print-sig-img';
+        img.style.width=(cv.clientWidth||300)+'px';
+        img.style.height=(cv.clientHeight||180)+'px';
+        img.dataset.url=url;img.src=url;
+        cv.parentNode.insertBefore(img,cv.nextSibling);
+        printImgs[k]=img;
+      }
+      cv.classList.add('print-hide-canvas');
+    }else{
+      if(img){img.remove();delete printImgs[k];}
+      cv.classList.remove('print-hide-canvas');
+    }
+  });
+}
+function waitPrintImages(){
+  const list=Object.values(printImgs);
+  return Promise.all(list.map(im=>im.complete?Promise.resolve():new Promise(r=>{im.onload=r;im.onerror=r;setTimeout(r,800);})));
+}
+async function doPrint(){
+  refreshPrintSigs();
+  try{await waitPrintImages();}catch(e){}
+  const prevTitle=document.title;
+  document.title=pdfBaseName();
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  if(isIOS)toast('iPhone: di pratinjau cetak, cubit-zoom atau ketuk Bagikan untuk menyimpan PDF');
+  window.print();
+  document.title=prevTitle;
+}
+window.addEventListener('beforeprint',refreshPrintSigs);
+
+/* ===== Navigasi Home <-> Form ===== */
+function updateToolbar(){
+  const onForm=!!currentForm;
+  document.querySelectorAll('.form-only').forEach(el=>el.style.display=onForm?'':'none');
+  $('btnHome').style.display=onForm?'':'none';
+  if(onForm){
+    const f=getDef(currentForm);
+    $('tbTitle').innerHTML=esc(f?(f.unit+' · '+f.model):'')+'<span>Daily Inspection Record</span>';
+    document.title=pdfBaseName();
+  }else{
+    $('tbTitle').innerHTML='Daily Inspection Record<span>Pilih unit di menu utama</span>';
+    document.title=baseTitle;
+  }
+}
+function showHome(){
+  currentForm=null;currentId=null;
+  $('viewForm').hidden=true;$('viewHome').hidden=false;
+  updateToolbar();refreshHome();
+  invalidatePdf();
+  window.scrollTo(0,0);
+}
+function openForm(id,preset){
+  currentForm=id;
+  $('viewHome').hidden=true;$('viewForm').hidden=false;
+  updateToolbar();
+  $('draftStatus').textContent='';
+  let loaded=false;
+  if(preset){try{apply(preset);loaded=true;}catch(e){}}
+  if(!loaded){
+    const draft=lsGet(draftKey(id));
+    if(draft){
+      try{apply(JSON.parse(draft));$('draftStatus').textContent='Draf terakhir dipulihkan';loaded=true;}catch(e){}
+    }
+  }
+  if(!loaded)apply({});
+  invalidatePdf();
+  requestAnimationFrame(()=>{
+    Object.values(pads).forEach(p=>p.resize());
+    refreshPrintSigs();
+  });
+  setTimeout(()=>{if(currentForm)loadJsPdf().catch(()=>{});},1200);
+  setTimeout(()=>{if(currentForm)getPdfBlob().catch(()=>{});},2500);
+  window.scrollTo(0,0);
+}
+ $('btnHome').addEventListener('click',showHome);
+
+/* ===== Render menu utama ===== */
+function refreshHome(){
+  const wrap=$('cards');wrap.innerHTML='';
+  const q=($('searchInput').value||'').toLowerCase();
+  FORMS.filter(f=>{
+    if(!q)return true;
+    return (f.unit+' '+f.model+' '+f.type+' '+f.serial).toLowerCase().includes(q);
+  }).forEach(f=>{
+    const el=document.createElement('div');
+    el.className='card';
+    const recs=getRecords(f.id);
+    const last=recs[0]&&recs[0].savedAt?new Date(recs[0].savedAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}):null;
+    const meta='S/N '+esc(f.serial)+' · '+totalItems(f)+' item check · '+(recs.length?recs.length+' form tersimpan'+(last?' · terakhir '+last:''):'belum ada inspeksi');
+    el.innerHTML='<div class="card-title">'+esc(f.unit)+'</div>'+
+      '<div class="card-desc">'+esc(f.type+' '+f.model)+'</div>'+
+      '<div class="card-meta">'+meta+'</div>';
+    el.addEventListener('click',()=>openForm(f.id));
+    wrap.appendChild(el);
+  });
+}
+ $('searchInput').addEventListener('input',refreshHome);
+
+/* ===== Tombol lain ===== */
+ $('btnSave').addEventListener('click',saveRecord);
+ $('btnNew').addEventListener('click',()=>{
+  if(!confirm('Buat formulir baru? Isian yang belum disimpan akan hilang.'))return;
+  apply({});lsDel(draftKey(currentForm));
+  $('draftStatus').textContent='';toast('Formulir baru siap');
+});
+
+/* ===== Toast ===== */
+let toastT;
+function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),3600);}
+
+/* ===== Init ===== */
+(function init(){
+  updateDriveUi();
+  items=blankItems();buildTable();updateProgress();
+  showHome();
+  const vf=$('viewForm');
+  vf.addEventListener('input',markDirty);
+  vf.addEventListener('change',markDirty);
+})();
+})();
+</script>
+<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ac49a6b9300d8000815b426" data-netlify-site-id="f9189b06-0026-4cf9-a224-8cbd9c719e11" data-agent-runner-id="6ac48669a9969745d6bdf9ae"></script>
+</body>
+</html>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="f9189b06-0026-4cf9-a224-8cbd9c719e11" data-app-host="app.netlify.com"></script>
